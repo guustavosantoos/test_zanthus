@@ -1,0 +1,41 @@
+# ──────────────────────────────────────────────────────────────────
+# docker-compose.yml
+# Sobe um container Node.js para rodar a suíte Cypress em modo headless.
+#
+# Uso:
+#   docker-compose up --build
+#   docker-compose up --build --exit-code-from cypress
+# ──────────────────────────────────────────────────────────────────
+
+version: '3.8'
+
+services:
+  cypress:
+    # Imagem oficial do Cypress com todas as dependências de browser já instaladas
+    image: cypress/included:14.3.3
+    container_name: cypress_saucedemo
+
+    # Monta o diretório do projeto dentro do container
+    volumes:
+      - .:/e2e
+      - /e2e/node_modules  # evita sobrescrever node_modules do host
+
+    working_dir: /e2e
+
+    environment:
+      # Desabilita a verificação de binário do Cypress (já está na imagem)
+      - CYPRESS_VERIFY_TIMEOUT=60000
+      # Variáveis de ambiente dos testes (sobrescrevem cypress.config.js se necessário)
+      - CYPRESS_username=standard_user
+      - CYPRESS_password=secret_sauce
+
+    # Roda todos os testes em modo headless com Chrome
+    command: >
+      cypress run
+        --headless
+        --browser chrome
+        --spec "cypress/e2e/**/*.cy.js"
+
+    # Garante que o container encerre com o código de saída correto
+    # (0 = todos os testes passaram, != 0 = houve falha)
+    network_mode: "bridge"

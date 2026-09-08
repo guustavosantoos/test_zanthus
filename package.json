@@ -1,0 +1,20 @@
+{
+  "name": "cypress-saucedemo",
+  "version": "1.0.0",
+  "description": "Teste técnico QA - Automação do SauceDemo com Cypress e Page Object Model",
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "cy:run:headless": "cypress run --headless --browser chrome",
+    "cy:run:login": "cypress run --spec 'cypress/e2e/login.cy.js' --headless",
+    "cy:run:cart": "cypress run --spec 'cypress/e2e/addToCart.cy.js' --headless",
+    "cy:run:all": "cypress run --headless --browser chrome --reporter mochawesome",
+    "test": "npm run cy:run:headless"
+  },
+  "keywords": ["cypress", "e2e", "qa", "automation", "page-object-model"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^14.3.3"
+  }
+}
