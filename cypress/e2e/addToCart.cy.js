@@ -1,4 +1,3 @@
-import LoginPage     from '../support/pages/LoginPage';
 import InventoryPage from '../support/pages/InventoryPage';
 import CartPage      from '../support/pages/CartPage';
 
