@@ -12,21 +12,18 @@ module.exports = defineConfig({
     defaultCommandTimeout: 10000,
     pageLoadTimeout: 30000,
     retries: {
-      runMode: 1,      // retry 1x no modo CI/headless
-      openMode: 0,     // sem retry no modo interativo
+      runMode: 1,
+      openMode: 0,
     },
-    setupNodeEvents(on, config) {
-      // Registra evento para capturar screenshots em falhas
+    setupNodeEvents(on) {
       on('after:screenshot', (details) => {
-        console.log(`[Screenshot] Capturada: ${details.path}`);
+        console.log(`Screenshot: ${details.path}`);
       });
     },
   },
   env: {
-    // Credenciais padrão do SauceDemo
     username: 'standard_user',
     password: 'secret_sauce',
-    // Produto alvo dos testes
     targetProduct: 'Sauce Labs Backpack',
     targetProductId: 'sauce-labs-backpack',
   },

@@ -1,17 +1,6 @@
-/**
- * Spec: login.cy.js
- * Testa os cenários de autenticação da página de login do SauceDemo.
- *
- * Cobre:
- *  - Login com credenciais válidas
- *  - Login com usuário bloqueado
- *  - Login com credenciais inválidas
- *  - Login com campos em branco
- */
-
 import LoginPage from '../support/pages/LoginPage';
 
-describe('Autenticação - Página de Login', () => {
+describe('Login', () => {
   let testData;
 
   before(() => {
@@ -24,23 +13,20 @@ describe('Autenticação - Página de Login', () => {
     LoginPage.visit();
   });
 
-  // ─── Cenário de Sucesso ───────────────────────────────────────────────────
-  context('Login com credenciais válidas', () => {
-    it('deve redirecionar para a página de produtos ao fazer login com standard_user', () => {
+  context('credenciais válidas', () => {
+    it('redireciona para a página de produtos', () => {
       LoginPage
         .typeUsername(testData.validUser.username)
         .typePassword(testData.validUser.password)
         .clickLogin()
         .assertLoginSuccess();
 
-      // Valida título da página de produtos
       cy.get('[data-test="title"]').should('have.text', 'Products');
     });
   });
 
-  // ─── Cenários de Exceção ─────────────────────────────────────────────────
-  context('Login com credenciais inválidas', () => {
-    it('deve exibir mensagem de erro ao usar credenciais incorretas', () => {
+  context('credenciais inválidas', () => {
+    it('exibe erro com usuário e senha incorretos', () => {
       LoginPage
         .typeUsername(testData.invalidUser.username)
         .typePassword(testData.invalidUser.password)
@@ -48,7 +34,7 @@ describe('Autenticação - Página de Login', () => {
         .assertErrorContains('Username and password do not match');
     });
 
-    it('deve exibir mensagem de erro ao usar usuário bloqueado (locked_out_user)', () => {
+    it('exibe erro para usuário bloqueado', () => {
       LoginPage
         .typeUsername(testData.lockedUser.username)
         .typePassword(testData.lockedUser.password)
@@ -56,14 +42,14 @@ describe('Autenticação - Página de Login', () => {
         .assertErrorContains('Sorry, this user has been locked out');
     });
 
-    it('deve exibir mensagem de erro ao deixar o usuário em branco', () => {
+    it('exibe erro quando o campo usuário está vazio', () => {
       LoginPage
         .typePassword(testData.validUser.password)
         .clickLogin()
         .assertErrorContains('Username is required');
     });
 
-    it('deve exibir mensagem de erro ao deixar a senha em branco', () => {
+    it('exibe erro quando o campo senha está vazio', () => {
       LoginPage
         .typeUsername(testData.validUser.username)
         .clickLogin()
